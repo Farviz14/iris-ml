@@ -2,6 +2,34 @@ import streamlit as st
 import pandas as pd
 import joblib
 import base64
+# Function to encode the image in base64
+def get_base64_image(image_path):
+    with open(image_path, "rb") as file:
+        return base64.b64encode(file.read()).decode()
+
+# Path to the image in your repository
+image_path = "HDB.jpg"  # Ensure this matches your uploaded image's name
+
+# Encode the image
+base64_image = get_base64_image(image_path)
+
+# Add background image using CSS
+page_bg_img = f'''
+<style>
+.stApp {{
+    background-image: url("data:image/jpeg;base64,{base64_image}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}}
+</style>
+'''
+
+# Apply the background image
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
+
 
 
 # Load the trained model
