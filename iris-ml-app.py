@@ -17,21 +17,13 @@ Fill in the required details, and the model will predict the price for you!
 """)
 
 
-st.sidebar.header('User Input Parameters')
+# Input features
+st.sidebar.header("Input Features")
+floor_area = st.sidebar.number_input("Floor Area (sqm)", min_value=40.0, max_value=150.0, step=1.0)
+region = st.sidebar.selectbox("Region", ["Central", "East", "North", "North-East", "West"])
+flat_type = st.sidebar.selectbox("Flat Type", ["1 ROOM", "2 ROOM", "3 ROOM", "4 ROOM", "5 ROOM", "EXECUTIVE"])
+lease_remaining = st.sidebar.slider("Lease Remaining (Years)", min_value=70, max_value=99, step=1)
 
-def user_input_features():
-    sepal_length = st.sidebar.slider('Sepal length', 4.3, 7.9, 5.4)
-    sepal_width = st.sidebar.slider('Sepal width', 2.0, 4.4, 3.4)
-    petal_length = st.sidebar.slider('Petal length', 1.0, 6.9, 1.3)
-    petal_width = st.sidebar.slider('Petal width', 0.1, 2.5, 0.2)
-    data = {'sepal_length': sepal_length,
-            'sepal_width': sepal_width,
-            'petal_length': petal_length,
-            'petal_width': petal_width}
-    features = pd.DataFrame(data, index=[0])
-    return features
-
-df = user_input_features()
 
 st.subheader('User Input parameters')
 st.write(df)
