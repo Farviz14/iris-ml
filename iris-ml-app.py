@@ -25,7 +25,7 @@ Fill in the required details, and the model will predict the price for you!
 """)
 
 # Input features
-st.sidebar.header("Input Features")
+st.sidebar.header("Enter HDB Info")
 floor_area = st.sidebar.number_input("Floor Area (sqm)", min_value=40.0, max_value=150.0, step=1.0)
 town = st.sidebar.selectbox("Town", [
     'ANG MO KIO', 'BEDOK', 'BISHAN', 'BUKIT BATOK', 'BUKIT MERAH', 'BUKIT TIMAH',
