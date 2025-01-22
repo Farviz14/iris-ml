@@ -43,7 +43,7 @@ flat_model = st.sidebar.selectbox("Flat Model", [
 lease_remaining_years = st.sidebar.slider("Lease Remaining (Years)", min_value=70, max_value=99, step=1)
 storey_category = st.sidebar.selectbox("Storey Category", ["Low Storey", "Mid Storey", "High Storey"])
 
-# Map remaining years to age of lease
+# Convert lease remaining to lease age
 lease_age_years = 99 - lease_remaining_years
 
 # Mapping towns to regions
