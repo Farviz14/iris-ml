@@ -10,6 +10,12 @@ model = joblib.load("ResalePrice_compressed.pkl")
 
 st.title("HDB Resale Price Prediction")
 
+# Description
+st.write("""
+This app predicts the resale price of HDB flats in Singapore.
+Fill in the required details, and the model will predict the price for you!
+""")
+
 
 st.sidebar.header('User Input Parameters')
 
