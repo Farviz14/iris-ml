@@ -40,7 +40,7 @@ flat_model = st.sidebar.selectbox("Flat Model", [
     'MODEL A-MAISONETTE', 'MAISONETTE', 'IMPROVED-MAISONETTE', 'APARTMENT',
     'TERRACE', 'PREMIUM APARTMENT', '2-ROOM', 'MULTI GENERATION'
 ])
-lease_remaining = st.sidebar.slider("Lease Remaining (Years)", min_value=70, max_value=99, step=1)
+lease_age_years = st.sidebar.slider("Lease Remaining (Years)", min_value=70, max_value=99, step=1)
 storey_category = st.sidebar.selectbox("Storey Category", ["Low Storey", "Mid Storey", "High Storey"])
 
 # Mapping towns to regions
