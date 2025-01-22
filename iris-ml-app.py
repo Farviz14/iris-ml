@@ -87,6 +87,6 @@ input_df = input_df[expected_feature_order]
 if st.button("Predict"):
     try:
         prediction = model.predict(input_df)
-        st.success(f"The predicted resale price is: ${prediction[0]:,.2f}")
+        st.success(f"The estimated resale price is: ${prediction[0]:,.2f}")
     except Exception as e:
         st.error(f"Error during prediction: {e}")
