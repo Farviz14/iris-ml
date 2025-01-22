@@ -16,32 +16,52 @@ Fill in the required details, and the model will predict the price for you!
 # Input features
 st.sidebar.header("Input Features")
 floor_area = st.sidebar.number_input("Floor Area (sqm)", min_value=40.0, max_value=150.0, step=1.0)
-region = st.sidebar.selectbox("Region", ["Central", "East", "North", "North-East", "West"])
-flat_type = st.sidebar.selectbox("Flat Type", ["1 ROOM", "2 ROOM", "3 ROOM", "4 ROOM", "5 ROOM", "EXECUTIVE"])
+town = st.sidebar.selectbox(
+    "Town",
+    [
+        "ANG MO KIO", "BEDOK", "BISHAN", "BUKIT BATOK", "BUKIT MERAH", "BUKIT TIMAH",
+        "CENTRAL AREA", "CHOA CHU KANG", "CLEMENTI", "GEYLANG", "HOUGANG",
+        "JURONG EAST", "JURONG WEST", "KALLANG/WHAMPOA", "MARINE PARADE",
+        "PASIR RIS", "PUNGGOL", "QUEENSTOWN", "SEMBAWANG", "SENGKANG", "SERANGOON",
+        "TAMPINES", "TOA PAYOH", "WOODLANDS", "YISHUN"
+    ]
+)
+flat_type = st.sidebar.selectbox("Flat Type", ["1 ROOM", "2 ROOM", "3 ROOM", "4 ROOM", "5 ROOM", "EXECUTIVE", "MULTI GENERATION"])
 lease_remaining = st.sidebar.slider("Lease Remaining (Years)", min_value=70, max_value=99, step=1)
-flat_model = st.sidebar.selectbox("Flat Model", [
-    "IMPROVED", "NEW GENERATION", "STANDARD", "MODEL A", "SIMPLIFIED",
-    "MODEL A-MAISONETTE", "MAISONETTE", "IMPROVED-MAISONETTE",
-    "APARTMENT", "TERRACE", "PREMIUM APARTMENT", "2-ROOM", "MULTI GENERATION"
-])
+flat_model = st.sidebar.selectbox(
+    "Flat Model",
+    [
+        "IMPROVED", "NEW GENERATION", "STANDARD", "MODEL A", "SIMPLIFIED", 
+        "MODEL A-MAISONETTE", "MAISONETTE", "IMPROVED-MAISONETTE", 
+        "APARTMENT", "TERRACE", "PREMIUM APARTMENT", "2-ROOM", "MULTI GENERATION"
+    ]
+)
 
-# Map flat models to broader categories
+# Mapping towns to regions
+region_map = {
+    'ANG MO KIO': 'Central', 'BEDOK': 'East', 'BISHAN': 'Central', 'BUKIT BATOK': 'West',
+    'BUKIT MERAH': 'Central', 'BUKIT TIMAH': 'Central', 'CENTRAL AREA': 'Central',
+    'CHOA CHU KANG': 'West', 'CLEMENTI': 'West', 'GEYLANG': 'East', 'HOUGANG': 'North-East',
+    'JURONG EAST': 'West', 'JURONG WEST': 'West', 'KALLANG/WHAMPOA': 'Central',
+    'MARINE PARADE': 'East', 'PASIR RIS': 'East', 'PUNGGOL': 'North-East',
+    'QUEENSTOWN': 'Central', 'SEMBAWANG': 'North', 'SENGKANG': 'North-East',
+    'SERANGOON': 'North-East', 'TAMPINES': 'East', 'TOA PAYOH': 'Central',
+    'WOODLANDS': 'North', 'YISHUN': 'North'
+}
+
+# Mapping flat models to broader categories
 flat_model_map = {
-    'IMPROVED': 'Smaller Flats',
-    'NEW GENERATION': 'Smaller Flats',
-    'STANDARD': 'Smaller Flats',
-    'MODEL A': 'Smaller Flats',
-    'SIMPLIFIED': 'Smaller Flats',
-    'MODEL A-MAISONETTE': 'Maisonettes',
-    'MAISONETTE': 'Maisonettes',
-    'IMPROVED-MAISONETTE': 'Maisonettes',
-    'APARTMENT': 'Larger Flats',
-    'TERRACE': 'Larger Flats',
-    'PREMIUM APARTMENT': 'Larger Flats',
-    '2-ROOM': 'Special Models',
+    'IMPROVED': 'Smaller Flats', 'NEW GENERATION': 'Smaller Flats', 
+    'STANDARD': 'Smaller Flats', 'MODEL A': 'Smaller Flats', 
+    'SIMPLIFIED': 'Smaller Flats', 'MODEL A-MAISONETTE': 'Maisonettes',
+    'MAISONETTE': 'Maisonettes', 'IMPROVED-MAISONETTE': 'Maisonettes',
+    'APARTMENT': 'Larger Flats', 'TERRACE': 'Larger Flats', 
+    'PREMIUM APARTMENT': 'Larger Flats', '2-ROOM': 'Special Models', 
     'MULTI GENERATION': 'Special Models'
 }
 
+# Apply mappings
+region = region_map[town]
 flat_model_category = flat_model_map[flat_model]
 
 # Map user input into dataframe
@@ -58,6 +78,7 @@ input_data = {
     "flat_type_4 ROOM": [1 if flat_type == "4 ROOM" else 0],
     "flat_type_5 ROOM": [1 if flat_type == "5 ROOM" else 0],
     "flat_type_EXECUTIVE": [1 if flat_type == "EXECUTIVE" else 0],
+    "flat_type_MULTI GENERATION": [1 if flat_type == "MULTI GENERATION" else 0],
     "flat_model_category_Smaller Flats": [1 if flat_model_category == "Smaller Flats" else 0],
     "flat_model_category_Maisonettes": [1 if flat_model_category == "Maisonettes" else 0],
     "flat_model_category_Larger Flats": [1 if flat_model_category == "Larger Flats" else 0],
@@ -70,5 +91,8 @@ input_df = pd.DataFrame(input_data)
 
 # Predict resale price
 if st.button("Predict"):
-    prediction = model.predict(input_df)
-    st.success(f"The predicted resale price is: ${prediction[0]:,.2f}")
+    try:
+        prediction = model.predict(input_df)
+        st.success(f"The predicted resale price is: ${prediction[0]:,.2f}")
+    except Exception as e:
+        st.error(f"Error during prediction: {str(e)}")
