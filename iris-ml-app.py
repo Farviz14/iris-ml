@@ -24,6 +24,11 @@ town = st.sidebar.selectbox("Town", [
     'TOA PAYOH', 'WOODLANDS', 'YISHUN'
 ])
 flat_type = st.sidebar.selectbox("Flat Type", ["1 ROOM", "2 ROOM", "3 ROOM", "4 ROOM", "5 ROOM", "EXECUTIVE", "MULTI GENERATION"])
+flat_model = st.sidebar.selectbox("Flat Model", [
+    'IMPROVED', 'NEW GENERATION', 'STANDARD', 'MODEL A', 'SIMPLIFIED',
+    'MODEL A-MAISONETTE', 'MAISONETTE', 'IMPROVED-MAISONETTE', 'APARTMENT',
+    'TERRACE', 'PREMIUM APARTMENT', '2-ROOM', 'MULTI GENERATION'
+])
 lease_remaining = st.sidebar.slider("Lease Remaining (Years)", min_value=70, max_value=99, step=1)
 storey_category = st.sidebar.selectbox("Storey Category", ["Low Storey", "Mid Storey", "High Storey"])
 
@@ -53,7 +58,7 @@ input_data = {
     "floor_area_sqm": [floor_area],
     "region_" + region_map[town]: [1],
     "flat_type_" + flat_type: [1],
-    "flat_model_category_" + flat_model_map.get(flat_type, "Unknown"): [1],
+    "flat_model_category_" + flat_model_map[flat_model]: [1],
     "storey_category_" + storey_category: [1],
     "lease_remaining": [lease_remaining]
 }
