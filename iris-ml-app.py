@@ -8,7 +8,7 @@ def get_base64_image(image_path):
         return base64.b64encode(file.read()).decode()
 
 # Path to the image in your repository
-image_path = "HDB.jpg"  # Ensure this matches your uploaded image's name
+image_path = "HDB2.jpg"  # Ensure this matches your uploaded image's name
 
 # Encode the image
 base64_image = get_base64_image(image_path)
