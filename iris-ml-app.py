@@ -4,6 +4,10 @@ import joblib
 from sklearn import datasets
 from sklearn.ensemble import RandomForestClassifier
 
+# Load the trained model
+model = joblib.load("ResalePrice_compressed.pkl")
+
+
 st.write("""
 # Simple Iris Flower Prediction App
 This app predicts the **Iris flower** type!
