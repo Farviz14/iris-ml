@@ -13,8 +13,8 @@ image_path = "HDB.jpg"  # Ensure this matches your uploaded image's name
 # Encode the image
 base64_image = get_base64_image(image_path)
 
-# Add background image using CSS
-page_bg_img = f'''
+# CSS for background image with overlay
+overlay_css = f'''
 <style>
 .stApp {{
     background-image: url("data:image/jpeg;base64,{base64_image}");
@@ -23,11 +23,22 @@ page_bg_img = f'''
     background-attachment: fixed;
     background-position: center;
 }}
+.stApp::before {{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the transparency and color */
+    z-index: -1; /* Send it behind other elements */
+}}
 </style>
 '''
 
-# Apply the background image
-st.markdown(page_bg_img, unsafe_allow_html=True)
+# Apply the background image and overlay
+st.markdown(overlay_css, unsafe_allow_html=True)
+
 
 
 
