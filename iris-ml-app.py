@@ -67,7 +67,7 @@ flat_model_map = {
 # Map user input into dataframe
 input_data = {
     "floor_area_sqm": [floor_area],
-    "lease_age_years": [lease_age_year],
+    "lease_age_years": [lease_age_years],
     f"region_{region_map[town]}": [1],
     f"flat_type_{flat_type}": [1],
     f"flat_model_category_{flat_model_map[flat_model]}": [1],
