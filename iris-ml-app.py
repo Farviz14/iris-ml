@@ -8,10 +8,8 @@ from sklearn.ensemble import RandomForestClassifier
 model = joblib.load("ResalePrice_compressed.pkl")
 
 
-st.write("""
-# Simple Iris Flower Prediction App
-This app predicts the **Iris flower** type!
-""")
+st.title("HDB Resale Price Prediction")
+
 
 st.sidebar.header('User Input Parameters')
 
