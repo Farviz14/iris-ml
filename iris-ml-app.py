@@ -61,7 +61,7 @@ st.title("HDB Resale Price Prediction")
 
 # Description
 st.write("""
-This app predicts the resale price of HDB flats in Singapore.
+This app predicts the resale price of HDB flats in Singapore(1990 - 1999).
 Fill in the required details, and the model will predict the estimated price for your preference!
 """)
 
