@@ -30,7 +30,7 @@ overlay_css = f'''
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the transparency and color */
+    background-color: rgba(0, 255, 0, 0.5); /* Adjust the transparency and color */
     z-index: -1; /* Send it behind other elements */
 }}
 </style>
