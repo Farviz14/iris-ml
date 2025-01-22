@@ -7,13 +7,13 @@ model = joblib.load("ResalePrice_compressed.pkl")
 
 # Feature order from the trained model
 expected_feature_order = [
-    'floor_area_sqm', 'lease_age_years', 'region_Central', 'region_East', 'region_North',
+    'floor_area_sqm', 'region_Central', 'region_East', 'region_North',
     'region_North-East', 'region_West', 'flat_type_1 ROOM', 'flat_type_2 ROOM',
     'flat_type_3 ROOM', 'flat_type_4 ROOM', 'flat_type_5 ROOM', 'flat_type_EXECUTIVE',
     'flat_type_MULTI GENERATION', 'flat_model_category_Larger Flats',
     'flat_model_category_Maisonettes', 'flat_model_category_Smaller Flats',
     'flat_model_category_Special Models', 'storey_category_Low Storey',
-    'storey_category_Mid Storey', 'storey_category_High Storey'
+    'storey_category_Mid Storey', 'storey_category_High Storey', 'lease_remaining'
 ]
 
 st.title("HDB Resale Price Prediction")
@@ -40,11 +40,8 @@ flat_model = st.sidebar.selectbox("Flat Model", [
     'MODEL A-MAISONETTE', 'MAISONETTE', 'IMPROVED-MAISONETTE', 'APARTMENT',
     'TERRACE', 'PREMIUM APARTMENT', '2-ROOM', 'MULTI GENERATION'
 ])
-lease_remaining_years = st.sidebar.slider("Lease Remaining (Years)", min_value=70, max_value=99, step=1)
+lease_remaining = st.sidebar.slider("Lease Remaining (Years)", min_value=70, max_value=99, step=1)
 storey_category = st.sidebar.selectbox("Storey Category", ["Low Storey", "Mid Storey", "High Storey"])
-
-# Convert lease remaining to lease age
-lease_age_years = 99 - lease_remaining_years
 
 # Mapping towns to regions
 region_map = {
@@ -70,7 +67,7 @@ flat_model_map = {
 # Map user input into dataframe
 input_data = {
     "floor_area_sqm": [floor_area],
-    "lease_age_years": [lease_age_years],
+    "lease_remaining": [lease_remaining],  # Using lease_remaining directly
     f"region_{region_map[town]}": [1],
     f"flat_type_{flat_type}": [1],
     f"flat_model_category_{flat_model_map[flat_model]}": [1],
