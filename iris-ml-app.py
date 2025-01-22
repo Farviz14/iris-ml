@@ -5,6 +5,17 @@ import joblib
 # Load the trained model
 model = joblib.load("ResalePrice_compressed.pkl")
 
+# Feature order from the trained model
+expected_feature_order = [
+    'floor_area_sqm', 'lease_age_years', 'region_Central', 'region_East', 'region_North',
+    'region_North-East', 'region_West', 'flat_type_1 ROOM', 'flat_type_2 ROOM',
+    'flat_type_3 ROOM', 'flat_type_4 ROOM', 'flat_type_5 ROOM', 'flat_type_EXECUTIVE',
+    'flat_type_MULTI GENERATION', 'flat_model_category_Larger Flats',
+    'flat_model_category_Maisonettes', 'flat_model_category_Smaller Flats',
+    'flat_model_category_Special Models', 'storey_category_Low Storey',
+    'storey_category_Mid Storey', 'storey_category_High Storey'
+]
+
 st.title("HDB Resale Price Prediction")
 
 # Description
@@ -56,30 +67,26 @@ flat_model_map = {
 # Map user input into dataframe
 input_data = {
     "floor_area_sqm": [floor_area],
-    "region_" + region_map[town]: [1],
-    "flat_type_" + flat_type: [1],
-    "flat_model_category_" + flat_model_map[flat_model]: [1],
-    "storey_category_" + storey_category: [1],
-    "lease_remaining": [lease_remaining]
+    "lease_age_years": [lease_remaining],
+    f"region_{region_map[town]}": [1],
+    f"flat_type_{flat_type}": [1],
+    f"flat_model_category_{flat_model_map[flat_model]}": [1],
+    f"storey_category_{storey_category}": [1]
 }
 
-# Fill missing one-hot encoded columns with 0
-all_columns = [
-    # Add all expected one-hot columns here based on your training data
-    "region_Central", "region_East", "region_North", "region_North-East", "region_West",
-    "flat_type_1 ROOM", "flat_type_2 ROOM", "flat_type_3 ROOM", "flat_type_4 ROOM",
-    "flat_type_5 ROOM", "flat_type_EXECUTIVE", "flat_type_MULTI GENERATION",
-    "flat_model_category_Smaller Flats", "flat_model_category_Maisonettes",
-    "flat_model_category_Larger Flats", "flat_model_category_Special Models",
-    "storey_category_Low Storey", "storey_category_Mid Storey", "storey_category_High Storey"
-]
+# Add missing columns and set them to 0
+for feature in expected_feature_order:
+    if feature not in input_data:
+        input_data[feature] = [0]
 
+# Create DataFrame and order columns
 input_df = pd.DataFrame(input_data)
-for col in all_columns:
-    if col not in input_df.columns:
-        input_df[col] = 0
+input_df = input_df[expected_feature_order]
 
 # Predict resale price
 if st.button("Predict"):
-    prediction = model.predict(input_df)
-    st.success(f"The predicted resale price is: ${prediction[0]:,.2f}")
+    try:
+        prediction = model.predict(input_df)
+        st.success(f"The predicted resale price is: ${prediction[0]:,.2f}")
+    except Exception as e:
+        st.error(f"Error during prediction: {e}")
